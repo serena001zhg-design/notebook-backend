@@ -85,6 +85,17 @@ app.delete('/api/folders/:id', async (req, res) => {
 
 // ========== 笔记 API ==========
 
+// 获取某个文件夹的所有笔记
+app.get('/api/folders/:folderId/notes', async (req, res) => {
+  try {
+    const notes = await Note.find({ folderId: req.params.folderId })
+                            .sort({ updatedAt: -1 });
+    res.json(notes);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // 获取所有笔记
 app.get('/api/notes', async (req, res) => {
   try {
